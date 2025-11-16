@@ -65,51 +65,23 @@ class Model:
         """ Implementa la ricorsione """
         # TODO
         #caso terminale
-        if giorno > 7:
-            self.__sequenza_ottima = sequenza_parziale
+        if giorno == 8:
+            self.__sequenza_ottima = list(sequenza_parziale)
             self.__costo_ottimo = costo_corrente
             return
 
         for id_impianto, consumi in consumi_settimana.items():
-
-            if ultimo_impianto is not None or id_impianto != ultimo_impianto:
+            if len(consumi) < giorno:
+                continue
+            costo_aggiuntivo = 0
+            if ultimo_impianto != id_impianto and ultimo_impianto is not None:
                 costo_aggiuntivo = 5
-            else:
-                costo_aggiuntivo = 0
 
-            consumi_settimana_impianto_A = consumi["1"]
-            consumi_settimana_impianto_B = consumi["2"]
-            for giorno in range(len(consumi)):
-                consumoA = consumi_settimana_impianto_A[giorno]
-                consumoB = consumi_settimana_impianto_B[giorno]
-
-                if consumoA[] + costo_aggiuntivo < consumoB:
-                    sequenza_parziale.append("1")
-                    ultimo_impianto = "1"
-                    costo_corrente += consumi[giorno]
-                else:
-                    sequenza_parziale.append("2")
-                    ultimo_impianto = "2"
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            costo_giornaliero = consumi[giorno -1]
+            nuovo_costo = costo_corrente + costo_giornaliero + costo_aggiuntivo
+            nuova_sequenza = sequenza_parziale + [id_impianto]
+            self.__ricorsione(nuova_sequenza,giorno+1,id_impianto,nuovo_costo,consumi_settimana)
+            nuova_sequenza.pop()
 
 
 
@@ -125,9 +97,9 @@ class Model:
             consumi = impianto.get_consumi()
             consumi_al_giorno = []
             for consumo in consumi:
-                if mese == consumo.data.month and consumo.data.day < 7:
-                    consumi_al_giorno.append(consumi.kwh)
-            consumi_dict[impianto.id] = sorted(consumi_al_giorno)
+                if consumo.data.month == mese and consumo.data.day <= 7:
+                    consumi_al_giorno.append(consumo.kwh)
+            consumi_dict[impianto.id] = consumi_al_giorno
 
         return consumi_dict
 
