@@ -65,17 +65,49 @@ class Model:
         """ Implementa la ricorsione """
         # TODO
         #caso terminale
-        if giorno > 8:
-            self.__costo_ottimo = costo_corrente
+        if giorno > 7:
             self.__sequenza_ottima = sequenza_parziale
+            self.__costo_ottimo = costo_corrente
             return
 
-        #caso ricorsivo
-        for id_impianto, consumi in consumi_settimana.items(): #???????????????
-            costo_giornaliero = consumi[giorno-1]
+        for id_impianto, consumi in consumi_settimana.items():
 
-            if ultimo_impianto is None or id_impianto != ultimo_impianto: #se cambio impianto o sono al primo
-                costo_giornaliero += 5
+            if ultimo_impianto is not None or id_impianto != ultimo_impianto:
+                costo_aggiuntivo = 5
+            else:
+                costo_aggiuntivo = 0
+
+            consumi_settimana_impianto_A = consumi["1"]
+            consumi_settimana_impianto_B = consumi["2"]
+            for giorno in range(len(consumi)):
+                consumoA = consumi_settimana_impianto_A[giorno]
+                consumoB = consumi_settimana_impianto_B[giorno]
+
+                if consumoA[] + costo_aggiuntivo < consumoB:
+                    sequenza_parziale.append("1")
+                    ultimo_impianto = "1"
+                    costo_corrente += consumi[giorno]
+                else:
+                    sequenza_parziale.append("2")
+                    ultimo_impianto = "2"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
