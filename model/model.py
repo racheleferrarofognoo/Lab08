@@ -70,13 +70,17 @@ class Model:
             self.__costo_ottimo = costo_corrente
             return
 
+        #caso ricorsivo
         for id_impianto, consumi in consumi_settimana.items():
             if len(consumi) < giorno:
                 continue
             costo_aggiuntivo = 0
+
+            # calcolo costo di spostamento se cambio impianto
             if ultimo_impianto != id_impianto and ultimo_impianto is not None:
                 costo_aggiuntivo = 5
 
+            #lista di consumi quindi parto dall'indice 6 e poi ricorro
             costo_giornaliero = consumi[giorno -1]
             nuovo_costo = costo_corrente + costo_giornaliero + costo_aggiuntivo
             nuova_sequenza = sequenza_parziale + [id_impianto]
