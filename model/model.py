@@ -66,8 +66,9 @@ class Model:
         # TODO
         #caso terminale
         if giorno == 8:
-            self.__sequenza_ottima = list(sequenza_parziale)
-            self.__costo_ottimo = costo_corrente
+            if self.__costo_ottimo == -1 or costo_corrente < self.__costo_ottimo:
+                self.__costo_ottimo = costo_corrente
+                self.__sequenza_ottima = list(sequenza_parziale)
             return
 
         #caso ricorsivo
@@ -85,7 +86,6 @@ class Model:
             nuovo_costo = costo_corrente + costo_giornaliero + costo_aggiuntivo
             nuova_sequenza = sequenza_parziale + [id_impianto]
             self.__ricorsione(nuova_sequenza,giorno+1,id_impianto,nuovo_costo,consumi_settimana)
-            nuova_sequenza.pop()
 
 
 
